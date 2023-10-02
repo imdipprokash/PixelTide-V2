@@ -44,7 +44,7 @@ const ItemView = ({navigation}: any) => {
           height: SCREEN_HEIGHT * 0.96,
           borderRadius: 10,
         }}
-        resizeMode="contain"
+        resizeMode="stretch"
       />
 
       <TouchableOpacity
@@ -56,15 +56,14 @@ const ItemView = ({navigation}: any) => {
             ToastAndroid.SHORT,
             ToastAndroid.CENTER,
           );
+          setIsLoading(true);
         }}
         style={{
-          width: SCREEEN_WIDTH * 0.8,
+          width: SCREEEN_WIDTH * 0.9,
         }}
-        className=" flex flex-row justify-center space-x-2 absolute bottom-16 items-center  py-3   bg-blue-500 rounded-md self-center">
+        className=" flex flex-row justify-center space-x-1 absolute bottom-16 items-center  py-3   bg-blue-500 rounded-md self-center">
         <ArrowDownTrayIcon size={20} color={'#fff'} />
-        <Text className="text-white font-semibold italic text-center">
-          Download
-        </Text>
+        <Text className="text-white font-semibold text-center">Download</Text>
       </TouchableOpacity>
       <View className=" absolute bottom-0">
         <AdsScreen />

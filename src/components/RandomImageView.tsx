@@ -3,6 +3,7 @@ import React, {useMemo, useState} from 'react';
 import MasonryList from '@react-native-seoul/masonry-list';
 import {useNavigation} from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {SCREEEN_WIDTH} from '../utils/Style';
 type Props = {
   data: any[];
 };
@@ -32,12 +33,10 @@ const RandomImageView = ({data}: Props) => {
             backgroundColor: '#f2f2f2',
           }}>
           <SkeletonPlaceholder borderRadius={4}>
-            <SkeletonPlaceholder.Item
-              alignItems="center"
-              justifyContent="center">
+            <SkeletonPlaceholder.Item>
               <SkeletonPlaceholder.Item
-                width={randomBool ? 150 : 280}
-                height={200}
+                height={randomBool ? 150 : 280}
+                width={SCREEEN_WIDTH / 2 - 20}
                 borderRadius={10}
               />
             </SkeletonPlaceholder.Item>
@@ -47,10 +46,11 @@ const RandomImageView = ({data}: Props) => {
           source={{uri: item.imgURL}}
           style={{
             height: randomBool ? 150 : 280,
+            width: SCREEEN_WIDTH / 2 - 20,
             alignSelf: 'stretch',
             borderRadius: 10,
           }}
-          resizeMode="contain"
+          resizeMode="cover"
           onLoad={() => setImgLoading(false)}
         />
       </TouchableOpacity>

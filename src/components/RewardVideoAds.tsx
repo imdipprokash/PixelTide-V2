@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {REWARDED_ID} from '../utils/AdsIds';
 
 type Props = {
-  adsShowHnadler?: boolean;
+  adsShowHnadler: boolean;
 };
 
 const rewarded = RewardedAd.createForAdRequest(REWARDED_ID, {
@@ -32,7 +32,7 @@ const RewardVideoAds = ({adsShowHnadler}: Props) => {
     );
 
     // Start loading the rewarded ad straight away
-    rewarded.load();
+    adsShowHnadler === true && rewarded.load();
 
     // Unsubscribe from events on unmount
     return () => {
