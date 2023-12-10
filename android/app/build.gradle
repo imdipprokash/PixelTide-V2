@@ -79,8 +79,8 @@ android {
         applicationId "com.pixeltide"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 50
-        versionName "2.4.0"
+        versionCode 60
+        versionName "2.5.0"
     }
     signingConfigs {
         debug {
