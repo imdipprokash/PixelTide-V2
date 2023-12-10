@@ -102,7 +102,7 @@ export const UUID = () => {
 };
 
 export const CreateUser = async () => {
-  const macId = await DeviceInfo.getMacAddress();
+  const macId = (await DeviceInfo.getMacAddress()) + DeviceInfo.getDeviceId();
   let promise = await databases.createDocument(
     '650e5c46012814d1e192',
     '651c0c25f11674afc26d',
@@ -132,7 +132,7 @@ export const CreateUser = async () => {
 };
 
 export const isUserPresent = async () => {
-  const macId = await DeviceInfo.getMacAddress();
+  const macId = (await DeviceInfo.getMacAddress()) + DeviceInfo.getDeviceId();
   let promise = await databases.listDocuments(
     '650e5c46012814d1e192',
     '651c0c25f11674afc26d',

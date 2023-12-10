@@ -10,6 +10,9 @@ import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
 import CustomHeader from '../../components/CustomHeader';
 import {useAppSelector} from '../../hooks/reduxHook';
 import {getCoin} from '../../utils/UtilsFN';
+import {useFocusEffect} from '@react-navigation/native';
+import DeviceInfo from 'react-native-device-info';
+import {LinearGradient} from 'react-native-svg';
 
 type Props = {};
 
@@ -31,9 +34,13 @@ const Wallet = (props: Props) => {
       }
     }
   };
-  useEffect(() => {
-    GetWalletInfo();
-  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      GetWalletInfo();
+    }, []),
+  );
+
   const WithdrawalHandler = () => {
     ToastAndroid.showWithGravity(
       'Need a minimum of 100 INR',

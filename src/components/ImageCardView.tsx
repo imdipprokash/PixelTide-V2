@@ -13,6 +13,7 @@ import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../utils/Style';
 import {useNavigation} from '@react-navigation/native';
 import {ArrowSmallRightIcon} from 'react-native-heroicons/outline';
 import AdsScreen from './AdsScreen';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 type Props = {};
 
@@ -37,25 +38,27 @@ const ImageCardView = ({imgURL, id, text, index}: imageCardType) => {
           borderRadius: 10,
         }}
         key={id}>
-        {/* <View style={{display: isImgLoading ? 'flex' : 'none'}}>
-        <SkeletonPlaceholder borderRadius={4}>
-          <SkeletonPlaceholder.Item alignItems="center" justifyContent="center">
+        <View style={{display: isImgLoading ? 'flex' : 'none'}}>
+          <SkeletonPlaceholder borderRadius={4}>
             <SkeletonPlaceholder.Item
-              width={SCREEEN_WIDTH / 2 - 30}
-              height={SCREEN_HEIGHT * 0.25}
-              borderRadius={10}
-              top={4}
-            />
+              alignItems="center"
+              justifyContent="center">
+              <SkeletonPlaceholder.Item
+                width={SCREEEN_WIDTH * 0.9}
+                height={SCREEN_HEIGHT * 0.35}
+                borderRadius={10}
+                top={4}
+              />
 
-            <SkeletonPlaceholder.Item
-              marginTop={20}
-              width={80}
-              height={25}
-              left={-30}
-            />
-          </SkeletonPlaceholder.Item>
-        </SkeletonPlaceholder>
-      </View> */}
+              <SkeletonPlaceholder.Item
+                marginTop={20}
+                width={80}
+                height={25}
+                left={-30}
+              />
+            </SkeletonPlaceholder.Item>
+          </SkeletonPlaceholder>
+        </View>
 
         <FastImage
           source={{
