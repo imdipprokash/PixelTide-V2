@@ -5,11 +5,7 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import DrawerNavigator from './DrawerNavigator';
-import {
-  HomeIcon,
-  ArrowUpTrayIcon,
-  UserIcon,
-} from 'react-native-heroicons/solid';
+import {HomeIcon, HeartIcon, UserIcon} from 'react-native-heroicons/solid';
 import UploadSrc from '../Screens/UploadSrc/UploadSrc';
 import UserSrc from '../Screens/UserSrc/UserSrc';
 
@@ -71,7 +67,7 @@ const BottomNav = (props: Props) => {
           tabBarHideOnKeyboard: true,
 
           tabBarIcon: ({focused}) => (
-            <ArrowUpTrayIcon color={focused ? '#000fff' : '#666'} size={35} />
+            <HeartIcon color={focused ? '#000fff' : '#666'} />
           ),
         }}
       />

@@ -11,10 +11,7 @@ import React, {useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
 import {ArrowLeftIcon} from 'react-native-heroicons/solid';
-import {ArrowDownTrayIcon} from 'react-native-heroicons/outline';
-import AdsScreen from '../../components/AdsScreen';
 import {handleDownload} from '../../utils/UtilsFN';
-import RewardVideoAds from '../../components/RewardVideoAds';
 
 const ItemView = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +20,7 @@ const ItemView = ({navigation}: any) => {
   return (
     <View style={{flex: 1, paddingHorizontal: 10}}>
       {/* Reword ads */}
-      <RewardVideoAds adsShowHnadler={isLoading} />
+
       {/* Status Bar */}
       <StatusBar backgroundColor={'#f2f2f2'} barStyle={'dark-content'} />
 
@@ -61,13 +58,9 @@ const ItemView = ({navigation}: any) => {
         style={{
           width: SCREEEN_WIDTH * 0.9,
         }}
-        className=" flex flex-row justify-center space-x-1 absolute bottom-16 items-center  py-3   bg-blue-500 rounded-md self-center">
-        <ArrowDownTrayIcon size={20} color={'#fff'} />
+        className=" flex flex-row justify-center space-x-1 absolute bottom-5 items-center  py-3   bg-blue-500 rounded-md self-center">
         <Text className="text-white font-semibold text-center">Download</Text>
       </TouchableOpacity>
-      <View className=" absolute bottom-0">
-        <AdsScreen />
-      </View>
     </View>
   );
 };

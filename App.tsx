@@ -1,21 +1,23 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {persistor, store} from './src/Redux/store';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import {createStackNavigator} from '@react-navigation/stack';
-import BottomNav from './src/Navigation/BottomNav';
+import DrawerNavigator from './src/Navigation/DrawerNavigator';
+
 // Hlw
 type Props = {};
-const stack = createStackNavigator();
 const App = (props: Props) => {
+  // const dispatch = useAppDispatch();
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <BottomNav />
+          {/* <BottomNav /> */}
+          <DrawerNavigator />
         </NavigationContainer>
       </PersistGate>
     </Provider>

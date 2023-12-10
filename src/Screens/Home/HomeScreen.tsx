@@ -11,9 +11,58 @@ import ImageCardView from '../../components/ImageCardView';
 import {Databases} from 'appwrite';
 import {client} from '../../utils/Appwrite';
 import {CatMstDataReadType} from '../../../Typing';
+import {CreateUser, getCoin, isUserPresent} from '../../utils/UtilsFN';
+import {useAppDispatch} from '../../hooks/reduxHook';
+import {ADD_USER} from '../../Redux/slices/userSlices';
 
 const HomeScreen = ({navigation}: any) => {
   const [catMstData, setCatMstData] = useState<CatMstDataReadType[]>([]);
+  const dispatch = useAppDispatch();
+  const DeviceIndentify = async () => {
+    const result = await isUserPresent();
+    console.log(result);
+    if (result?.total === 0) {
+      // User not present present
+      const userWithCoinInfo = await CreateUser();
+
+      dispatch(
+        ADD_USER({
+          userName: '',
+          //@ts-ignore
+          id: userWithCoinInfo?.user_id,
+          email: '',
+          mac: '',
+          photo: '',
+          //@ts-ignore
+          coin: userWithCoinInfo?.coin,
+          //@ts-ignore
+
+          coin_id: userWithCoinInfo?.$id,
+        }),
+      );
+    } else {
+      const res = await getCoin(result?.documents[0].$id);
+      console.log('Coin get user present', res);
+      if (res?.documents.length > 0) {
+        const data = res?.documents[0];
+        dispatch(
+          ADD_USER({
+            userName: '',
+            id: data?.user_id,
+            email: '',
+            mac: '',
+            photo: '',
+            coin: data?.coin,
+            coin_id: data?.$id,
+          }),
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    DeviceIndentify();
+  }, []);
 
   // Read data from appwrite
   const databases = new Databases(client);
@@ -56,14 +105,15 @@ const HomeScreen = ({navigation}: any) => {
           onEndReachedThreshold={20}
           data={catMstData}
           keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => (
+          renderItem={({item, index}) => (
             <ImageCardView
+              index={index}
               imgURL={item.img_path}
               text={item.title}
               id={item.collectionId}
             />
           )}
-          numColumns={2}
+          numColumns={1}
           showsVerticalScrollIndicator={false}
         />
       ) : (

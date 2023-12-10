@@ -6,6 +6,9 @@ export interface UserState {
   photo: string | null;
   email: string | null;
   id: string | null;
+  mac: string | null;
+  coin: number;
+  coin_id: string | null;
 }
 
 const initialState: UserState = {
@@ -13,6 +16,9 @@ const initialState: UserState = {
   photo: null,
   email: null,
   id: null,
+  mac: null,
+  coin: 0,
+  coin_id: null,
 };
 
 export const userSlice = createSlice({
@@ -24,12 +30,17 @@ export const userSlice = createSlice({
       state.photo = action.payload.photo;
       state.email = action.payload.email;
       state.id = action.payload.id;
+      state.mac = action.payload.mac;
+      state.coin = action.payload.coin;
+      state.coin_id = action.payload.coin_id;
     },
     REMOVE_USER: state => {
       state.userName = null;
       state.photo = null;
       state.email = null;
       state.id = null;
+      state.coin = 0;
+      state.coin_id = null;
     },
   },
 });

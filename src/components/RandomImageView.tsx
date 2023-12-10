@@ -3,15 +3,15 @@ import React, {useMemo, useState} from 'react';
 import MasonryList from '@react-native-seoul/masonry-list';
 import {useNavigation} from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {SCREEEN_WIDTH} from '../utils/Style';
+import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../utils/Style';
 type Props = {
   data: any[];
 };
 
 const RandomImageView = ({data}: Props) => {
   const [isImgLoading, setImgLoading] = useState(true);
-  const nav = useNavigation();
 
+  const nav = useNavigation();
   const ImageCard = ({item, style}: any) => {
     const randomBool = useMemo(() => Math.random() < 0.5, []);
 
@@ -45,9 +45,8 @@ const RandomImageView = ({data}: Props) => {
         <Image
           source={{uri: item.imgURL}}
           style={{
-            height: randomBool ? 150 : 280,
-            width: SCREEEN_WIDTH / 2 - 20,
-            alignSelf: 'stretch',
+            height: SCREEN_HEIGHT * 0.6,
+            width: SCREEEN_WIDTH * 0.9,
             borderRadius: 10,
           }}
           resizeMode="cover"
@@ -58,7 +57,7 @@ const RandomImageView = ({data}: Props) => {
   };
 
   const renderItem = ({item, i}: any) => {
-    return <ImageCard item={item} style={{marginLeft: i % 2 === 0 ? 0 : 12}} />;
+    return <ImageCard item={item} />;
   };
   return (
     <MasonryList
@@ -66,10 +65,9 @@ const RandomImageView = ({data}: Props) => {
       ListHeaderComponent={<View />}
       contentContainerStyle={{
         paddingHorizontal: 4,
-        alignSelf: 'stretch',
       }}
       onEndReached={() => console.log('onEndReached')}
-      numColumns={2}
+      numColumns={1}
       data={data}
       renderItem={renderItem}
     />

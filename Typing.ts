@@ -13,7 +13,12 @@ export type TitlesType = {
   activeTile: string;
   id: string;
 };
-export type imageCardType = {id: any; imgURL: string; text: string};
+export type imageCardType = {
+  id: any;
+  imgURL: string;
+  text: string;
+  index: number;
+};
 
 export interface CatMstDataReadType {
   id: number;

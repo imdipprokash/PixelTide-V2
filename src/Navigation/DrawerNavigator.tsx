@@ -4,6 +4,7 @@ import CustomDrawer from './CustomDrawer';
 import AboutScreen from '../Screens/AboutScreen';
 import {useAppSelector} from '../hooks/reduxHook';
 import StackNav from './StackNav';
+import Wallet from '../Screens/Wallet/Wallet';
 
 type Props = {};
 
@@ -24,7 +25,7 @@ const DrawerNavigator = (props: Props) => {
       }}
       drawerContent={props => <CustomDrawer {...props} />}>
       <Drawer.Screen name="Home" component={StackNav} />
-
+      <Drawer.Screen name="Wallet" component={Wallet} />
       <Drawer.Screen name="About" component={AboutScreen} />
     </Drawer.Navigator>
   );
