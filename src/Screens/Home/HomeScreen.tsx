@@ -1,80 +1,100 @@
 import {
-  ActivityIndicator,
-  FlatList,
   StatusBar,
-  StyleSheet,
+  Image,
+  Text,
   View,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import CustomHeader from '../../components/CustomHeader';
-import ImageCardView from '../../components/ImageCardView';
-import {Databases} from 'appwrite';
-import {client} from '../../utils/Appwrite';
-import {CatMstDataReadType} from '../../../Typing';
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import React, { useState } from "react";
+import { styles } from "./HomeScreenStyle";
+import { COLORS } from "../../utils/Style";
+import data from "../../assets/Data/MOCK_DATA.json";
+import { uuid } from "../../utils/uuid";
 
-const HomeScreen = ({navigation}: any) => {
-  const [catMstData, setCatMstData] = useState<CatMstDataReadType[]>([]);
+const HomeScreen = (props: any) => {
+  const [activeItem, setActiveItem] = useState("Newest");
 
-  // Read data from appwrite
-  const databases = new Databases(client);
-  let promise = databases.listDocuments(
-    '650e5c46012814d1e192',
-    '650e7a7bee4536dded95',
-  );
-
-  useEffect(() => {
-    promise.then(
-      function (response) {
-        const data: any[] = response?.documents;
-        const temData = data?.map((item, index) => ({
-          id: index + 1,
-          collectionId: item?.$id,
-          title: item?.cat_name,
-          img_path: item?.init_wall_paper,
-        }));
-        data && setCatMstData(temData);
-      },
-      function (error) {
-        console.log(error);
-      },
-    );
-  }, []);
-
-  return (
-    <View style={{flex: 1, paddingHorizontal: 10}}>
-      {/* Status Bar */}
-      <StatusBar backgroundColor={'#f2f2f2'} barStyle={'dark-content'} />
-      {/* Custom Header */}
-      <CustomHeader
-        isHomepage={true}
-        toggleDrawer={() => navigation.openDrawer()}
-      />
-
-      {/* Main component */}
-      {catMstData.length > 0 ? (
-        <FlatList
-          onEndReachedThreshold={20}
-          data={catMstData}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => (
-            <ImageCardView
-              imgURL={item.img_path}
-              text={item.title}
-              id={item.collectionId}
-            />
-          )}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
+  const renderItem = (item: {
+    id: number;
+    image_path: string;
+    profile_pic: string;
+    name: string;
+    created_at: string;
+  }) => {
+    return (
+      <View
+        className="bg-white  mb-4 mx-5 rounded-lg overflow-hidden"
+        key={uuid()}
+      >
+        <Image
+          source={{
+            uri: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/Sunset-900x600.jpeg",
+          }}
+          className="w-60 h-60"
+          resizeMode="cover"
         />
-      ) : (
-        <View>
-          <ActivityIndicator size={25} className="pt-4" color={''} />
-        </View>
-      )}
+      </View>
+    );
+  };
+  return (
+    <View style={styles.mainView}>
+      <StatusBar backgroundColor={COLORS.bgColor} barStyle={"light-content"} />
+      {/* Header Section */}
+      <View className="flex flex-row items-center justify-center">
+        <Image
+          source={require("../../assets/logo.png")}
+          className="w-10 h-8"
+          resizeMode="cover"
+        />
+        <Text className="text-center text-lg font-semibold text-white">
+          PixelTide
+        </Text>
+      </View>
+
+      {/* tabs */}
+      <View className="flex-row items-center justify-evenly py-3 ">
+        <TouchableOpacity onPress={() => setActiveItem("Newest")}>
+          <Text
+            className={`${
+              activeItem === "Newest" ? "text-blue-400" : "text-gray-400"
+            }`}
+          >
+            Newest
+          </Text>
+        </TouchableOpacity>
+        <View className="w-[0.5px] h-4 bg-gray-200" />
+        <TouchableOpacity onPress={() => setActiveItem("Popular")}>
+          <Text
+            className={`${
+              activeItem === "Popular" ? "text-blue-400" : "text-gray-400"
+            }`}
+          >
+            Popular
+          </Text>
+        </TouchableOpacity>
+        <View className="w-[0.5px] h-4 bg-gray-200" />
+        <TouchableOpacity onPress={() => setActiveItem("Following")}>
+          <Text
+            className={`${
+              activeItem === "Following" ? "text-blue-400" : "text-gray-400"
+            }`}
+          >
+            Following
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Content Section */}
+      <View>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => uuid()}
+          renderItem={(item) => renderItem(item.item)}
+        />
+      </View>
     </View>
   );
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({});
