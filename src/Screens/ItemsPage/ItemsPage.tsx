@@ -91,21 +91,28 @@ const ItemsPage = ({navigation}: any) => {
       setImgLoading(false);
     };
     const DownloadHandler = () => {
-      if (coin < 100) {
-        ToastAndroid.showWithGravity(
-          'Please earn coin to download',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-      } else {
-        updateCoinHandler();
-        handleDownload(item?.imgURL);
-        ToastAndroid.showWithGravity(
-          'Downloading...',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-      }
+      handleDownload(item?.imgURL);
+      ToastAndroid.showWithGravity(
+        'Downloading...',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+
+      // if (coin < 100) {
+      //   ToastAndroid.showWithGravity(
+      //     'Please earn coin to download',
+      //     ToastAndroid.SHORT,
+      //     ToastAndroid.CENTER,
+      //   );
+      // } else {
+      //   updateCoinHandler();
+      //   handleDownload(item?.imgURL);
+      //   ToastAndroid.showWithGravity(
+      //     'Downloading...',
+      //     ToastAndroid.SHORT,
+      //     ToastAndroid.CENTER,
+      //   );
+      // }
     };
     return (
       <View>
@@ -119,7 +126,7 @@ const ItemsPage = ({navigation}: any) => {
               activeOpacity={0.7}
               className="absolute w-2/3 bottom-4 rounded-md bg-blue-500  z-50 self-center">
               <Text className="text-white font-semibold p-2 text-center">
-                ¥100 Download
+                Download
               </Text>
             </TouchableOpacity>
           )}

@@ -41,7 +41,7 @@ const UserSrc = (props: Props) => {
           data={[]}
           //   keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
-            <ImageCardView imgURL={''} text={''} id={''} />
+            <ImageCardView imgURL={''} text={''} id={''} index={0} />
           )}
           numColumns={2}
           showsVerticalScrollIndicator={false}

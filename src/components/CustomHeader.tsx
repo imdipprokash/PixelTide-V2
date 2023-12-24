@@ -48,7 +48,7 @@ const CustomHeader = ({toggleDrawer, isHomepage, title}: Props) => {
           </Text>
         </View>
       </View>
-      <View className="flex-row items-center">
+      {/* <View className="flex-row items-center">
         {isHomepage ? (
           <View className="pr-4 flex-row items-center gap-1">
             <Text className="text-orange-400 font-bold text-lg ">¥ {coin}</Text>
@@ -60,7 +60,7 @@ const CustomHeader = ({toggleDrawer, isHomepage, title}: Props) => {
             <Text className="text-orange-600 font-bold text-lg ">¥ Earn</Text>
           </TouchableOpacity>
         )}
-      </View>
+      </View> */}
     </View>
   );
 };

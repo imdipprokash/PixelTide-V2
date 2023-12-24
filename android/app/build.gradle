@@ -74,13 +74,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.pixeltide"
+    namespace "com.pixeltide.jdx"
     defaultConfig {
-        applicationId "com.pixeltide"
+        applicationId "com.pixeltide.jdx"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 60
-        versionName "2.5.0"
+        versionCode 80
+        versionName "3.0.0"
     }
     signingConfigs {
         debug {

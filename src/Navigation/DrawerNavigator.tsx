@@ -25,7 +25,7 @@ const DrawerNavigator = (props: Props) => {
       }}
       drawerContent={props => <CustomDrawer {...props} />}>
       <Drawer.Screen name="Home" component={StackNav} />
-      <Drawer.Screen name="Wallet" component={Wallet} />
+      {/* <Drawer.Screen name="Wallet" component={Wallet} /> */}
       <Drawer.Screen name="About" component={AboutScreen} />
     </Drawer.Navigator>
   );

@@ -15,8 +15,6 @@ import {ArrowSmallRightIcon} from 'react-native-heroicons/outline';
 import AdsScreen from './AdsScreen';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-type Props = {};
-
 const ImageCardView = ({imgURL, id, text, index}: imageCardType) => {
   const [isImgLoading, setImgLoading] = useState(true);
 

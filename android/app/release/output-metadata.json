@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.pixeltide",
+  "applicationId": "com.pixeltide.jdx",
   "variantName": "release",
   "elements": [
     {
