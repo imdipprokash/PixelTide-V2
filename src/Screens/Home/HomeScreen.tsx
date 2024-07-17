@@ -1,93 +1,116 @@
 import {
-  ActivityIndicator,
+  Text,
   FlatList,
   StatusBar,
   StyleSheet,
   View,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomHeader from '../../components/CustomHeader';
-import ImageCardView from '../../components/ImageCardView';
-import {Databases} from 'appwrite';
-import {client} from '../../utils/Appwrite';
-import {CatMstDataReadType} from '../../../Typing';
-import {CreateUser, getCoin, isUserPresent} from '../../utils/UtilsFN';
 import {useAppDispatch} from '../../hooks/reduxHook';
-import {ADD_USER} from '../../Redux/slices/userSlices';
+import {GradientColors} from '../../utils/Constant';
+import LinearGradient from 'react-native-linear-gradient';
+import {MasonryFlashList} from '@shopify/flash-list';
+
+import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
+import {handleAndroidPermissions} from '../../utils/UtilsFN';
+
+import AnimeList from '../../Database/Anime.json';
+import ArtImage from '../../Database/ArtImages.json';
+import AnimalList from '../../Database/Animal.json';
+import ArchitectureList from '../../Database/Architecture.json';
+import CharacterList from '../../Database/Character.json';
+import SciFiList from '../../Database/Sci-Fi.json';
 
 const HomeScreen = ({navigation}: any) => {
-  const [catMstData, setCatMstData] = useState<CatMstDataReadType[]>([]);
-  const dispatch = useAppDispatch();
-  const DeviceIndentify = async () => {
-    const result = await isUserPresent();
-    console.log(result);
-    if (result?.total === 0) {
-      // User not present present
-      const userWithCoinInfo = await CreateUser();
+  // Ask for fle permission
 
-      dispatch(
-        ADD_USER({
-          userName: '',
-          //@ts-ignore
-          id: userWithCoinInfo?.user_id,
-          email: '',
-          mac: '',
-          photo: '',
-          //@ts-ignore
-          coin: userWithCoinInfo?.coin,
-          //@ts-ignore
+  useEffect(() => {
+    handleAndroidPermissions();
+  }, []);
 
-          coin_id: userWithCoinInfo?.$id,
-        }),
-      );
-    } else {
-      const res = await getCoin(result?.documents[0].$id);
-      console.log('Coin get user present', res);
-      if (res?.documents.length > 0) {
-        const data = res?.documents[0];
-        dispatch(
-          ADD_USER({
-            userName: '',
-            id: data?.user_id,
-            email: '',
-            mac: '',
-            photo: '',
-            coin: data?.coin,
-            coin_id: data?.$id,
-          }),
-        );
-      }
+  const [activeCategory, setActiveCategory] = useState({
+    id: 1,
+    color_1: '#2f36f5',
+    color_2: '#dd5b83',
+    color_3: '#16a752',
+    title: 'All',
+  });
+
+  const HandlerCategoryToShow = (selectedTitle: string) => {
+    if (selectedTitle === 'All') {
+      return ArtImage.sort((a: string, b: string) => a.length - b.length);
     }
+    if (selectedTitle === 'Anime') {
+      return AnimeList;
+    }
+    if (selectedTitle === 'Sci-Fi') {
+      return SciFiList;
+    }
+    if (selectedTitle === 'Character') {
+      return CharacterList;
+    }
+    if (selectedTitle === 'Architecture') {
+      return ArchitectureList;
+    }
+    if (selectedTitle === 'Animal') {
+      return AnimalList;
+    }
+    if (selectedTitle === 'Art') {
+      return ArtImage;
+    }
+    return [];
   };
 
-  useEffect(() => {
-    DeviceIndentify();
-  }, []);
-
-  // Read data from appwrite
-  const databases = new Databases(client);
-  let promise = databases.listDocuments(
-    '650e5c46012814d1e192',
-    '650e7a7bee4536dded95',
-  );
-
-  useEffect(() => {
-    promise.then(
-      function (response) {
-        const data: any[] = response?.documents;
-        const temData = data?.map((item, index) => ({
-          id: index + 1,
-          collectionId: item?.$id,
-          title: item?.cat_name,
-          img_path: item?.init_wall_paper,
-        }));
-        data && setCatMstData(temData);
-      },
-      function (error) {
-        console.log(error);
-      },
+  const renderItem = ({item}: any) => {
+    return (
+      <View style={styles.container} key={item.id}>
+        <LinearGradient
+          colors={[item?.color_1, item?.color_2, item?.color_3]}
+          start={{x: 0.0, y: 1.0}}
+          end={{x: 1.0, y: 1.0}}
+          style={styles.gradient}>
+          <TouchableOpacity
+            onPress={() => setActiveCategory(item)}
+            style={[
+              styles.buttonContainer,
+              {
+                backgroundColor:
+                  item?.id === activeCategory?.id ? 'transparent' : '#ffff',
+              },
+            ]}>
+            <Text style={styles.buttonText}>{item?.title}</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </View>
     );
-  }, []);
+  };
+
+  const ImageRender = ({item, index}: {item: string; index: number}) => {
+    const even = index % 2 === 0;
+
+    return (
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate('ItemView', {item})}>
+        <Image
+          source={{uri: item}}
+          style={{
+            marginTop: even ? 0 : 10,
+            marginBottom: even ? 10 : 0,
+            width: SCREEEN_WIDTH * 0.46,
+            margin: 3,
+            borderRadius: 10,
+            height: even ? SCREEN_HEIGHT * 0.4 : SCREEN_HEIGHT * 0.42,
+            overflow: 'hidden',
+          }}
+          resizeMode="cover"
+        />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={{flex: 1, paddingHorizontal: 10}}>
@@ -99,32 +122,72 @@ const HomeScreen = ({navigation}: any) => {
         toggleDrawer={() => navigation.openDrawer()}
       />
 
-      {/* Main component */}
-      {catMstData.length > 0 ? (
-        <FlatList
-          onEndReachedThreshold={20}
-          data={catMstData}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item, index}) => (
-            <ImageCardView
-              index={index}
-              imgURL={item.img_path}
-              text={item.title}
-              id={item.collectionId}
-            />
-          )}
-          numColumns={1}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <View>
-          <ActivityIndicator size={25} className="pt-4" color={''} />
-        </View>
-      )}
+      {/*Top Bar */}
+      <FlatList
+        style={{maxHeight: 50, marginTop: -10}}
+        data={GradientColors}
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderItem}
+        numColumns={1}
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+      />
+
+      {/*Image View with Masonry List */}
+      <MasonryFlashList
+        onEndReachedThreshold={20}
+        data={HandlerCategoryToShow(activeCategory?.title)}
+        numColumns={2}
+        renderItem={({item, index}) => (
+          <ImageRender item={item} index={index} />
+        )}
+        estimatedItemSize={200}
+      />
     </View>
   );
 };
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1.0,
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    borderRadius: 10,
+    gap: 1,
+    marginEnd: 6,
+  },
+  gradient: {
+    height: 40,
+    width: 120,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
+  },
+  buttonContainer: {
+    flex: 1.0,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
+    width: '99%',
+    margin: 1,
+    borderRadius: 10,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'black',
+    alignSelf: 'center',
+  },
+  itemContainer: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: '#f9c2ff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  itemText: {
+    fontSize: 16,
+    color: '#333',
+  },
+});

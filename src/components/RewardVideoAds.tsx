@@ -2,7 +2,6 @@ import {StyleSheet} from 'react-native';
 import {RewardedAd, RewardedAdEventType} from 'react-native-google-mobile-ads';
 import React, {useEffect, useState} from 'react';
 import {REWARDED_ID} from '../utils/AdsIds';
-import {updateCoin} from '../utils/UtilsFN';
 import {useAppDispatch, useAppSelector} from '../hooks/reduxHook';
 import {ADD_USER} from '../Redux/slices/userSlices';
 
@@ -20,28 +19,28 @@ const RewardVideoAds = ({adsShowHnadler}: Props) => {
   const {id} = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
 
-  const updateCoinHandler = async () => {
-    if (id) {
-      const res = await updateCoin(id);
-      if (res) {
-        dispatch(
-          ADD_USER({
-            userName: '',
-            //@ts-ignore
-            id: res?.user_id,
-            email: '',
-            mac: '',
-            photo: '',
-            //@ts-ignore
-            coin: res?.coin,
-            //@ts-ignore
+  // const updateCoinHandler = async () => {
+  //   if (id) {
+  //     const res = await updateCoin(id);
+  //     if (res) {
+  //       dispatch(
+  //         ADD_USER({
+  //           userName: '',
+  //           //@ts-ignore
+  //           id: res?.user_id,
+  //           email: '',
+  //           mac: '',
+  //           photo: '',
+  //           //@ts-ignore
+  //           coin: res?.coin,
+  //           //@ts-ignore
 
-            coin_id: res?.$id,
-          }),
-        );
-      }
-    }
-  };
+  //           coin_id: res?.$id,
+  //         }),
+  //       );
+  //     }
+  //   }
+  // };
   useEffect(() => {
     const unsubscribeLoaded = rewarded.addAdEventListener(
       RewardedAdEventType.LOADED,
@@ -57,7 +56,6 @@ const RewardVideoAds = ({adsShowHnadler}: Props) => {
       reward => {
         rewarded.load();
         setLoaded(false);
-        updateCoinHandler();
       },
     );
 

@@ -41,9 +41,9 @@ const CustomHeader = ({toggleDrawer, isHomepage, title}: Props) => {
             <ArrowLeftIcon color={'#34de'} size={20} fill={'#fff'} />
           </TouchableOpacity>
         )}
-        <View className="flex-row">
+        <View className="flex-row mx-auto">
           <Image source={require('../assets/logo.png')} className="w-8 h-8" />
-          <Text className=" text-center  text-xl text-black font-semibold">
+          <Text className=" text-center  text-xl text-black font-semibold ">
             {title ? title : 'PixelTide'}
           </Text>
         </View>
