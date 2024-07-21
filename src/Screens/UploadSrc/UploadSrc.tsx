@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
 import {ArrowUpCircleIcon, ArrowUpTrayIcon} from 'react-native-heroicons/solid';
 import {client} from '../../utils/Appwrite';
 import {Databases} from 'appwrite';
@@ -95,7 +95,7 @@ export default UploadSrc;
 
 const styles = StyleSheet.create({
   imgContiner: {
-    width: SCREEEN_WIDTH * 0.7,
+    width: SCREEN_WIDTH * 0.7,
     height: SCREEN_HEIGHT * 0.3,
     borderRadius: 20,
     borderColor: '#000',

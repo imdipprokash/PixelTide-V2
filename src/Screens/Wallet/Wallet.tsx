@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
 import CustomHeader from '../../components/CustomHeader';
 import {useAppSelector} from '../../hooks/reduxHook';
 import {getCoin} from '../../utils/UtilsFN';

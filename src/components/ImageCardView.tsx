@@ -9,7 +9,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import React, {useState} from 'react';
 import {imageCardType} from '../../Typing';
-import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../utils/Style';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../utils/Style';
 import {useNavigation} from '@react-navigation/native';
 import {ArrowSmallRightIcon} from 'react-native-heroicons/outline';
 import AdsScreen from './AdsScreen';
@@ -31,7 +31,7 @@ const ImageCardView = ({imgURL, id, text, index}: imageCardType) => {
           !isImgLoading && nav.navigate('ItemsPage', {imgURL, id, text});
         }}
         style={{
-          margin: SCREEEN_WIDTH * 0.015,
+          margin: SCREEN_WIDTH * 0.015,
           backgroundColor: '#fff',
           borderRadius: 10,
         }}
@@ -42,7 +42,7 @@ const ImageCardView = ({imgURL, id, text, index}: imageCardType) => {
               alignItems="center"
               justifyContent="center">
               <SkeletonPlaceholder.Item
-                width={SCREEEN_WIDTH * 0.9}
+                width={SCREEN_WIDTH * 0.9}
                 height={SCREEN_HEIGHT * 0.35}
                 borderRadius={10}
                 top={4}
@@ -65,7 +65,7 @@ const ImageCardView = ({imgURL, id, text, index}: imageCardType) => {
           }}
           style={[
             {
-              width: SCREEEN_WIDTH * 0.9,
+              width: SCREEN_WIDTH * 0.9,
               height: SCREEN_HEIGHT * 0.35,
 
               overflow: 'hidden',

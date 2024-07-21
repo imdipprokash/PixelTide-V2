@@ -6,16 +6,18 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomHeader from '../../components/CustomHeader';
-import {useAppDispatch} from '../../hooks/reduxHook';
+
 import {GradientColors} from '../../utils/Constant';
 import LinearGradient from 'react-native-linear-gradient';
 import {MasonryFlashList} from '@shopify/flash-list';
 
-import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
-import {handleAndroidPermissions} from '../../utils/UtilsFN';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
+import {handleAndroidPermissions, UUID} from '../../utils/UtilsFN';
 
 import AnimeList from '../../Database/Anime.json';
 import ArtImage from '../../Database/ArtImages.json';
@@ -24,13 +26,33 @@ import ArchitectureList from '../../Database/Architecture.json';
 import CharacterList from '../../Database/Character.json';
 import SciFiList from '../../Database/Sci-Fi.json';
 
+const image_width = Number(Dimensions.get('screen').width / 2) - 15;
+const HandlerCategoryToShow = (selectedTitle: string) => {
+  if (selectedTitle === 'All') {
+    return ArtImage.sort((a: string, b: string) => a.length - b.length);
+  }
+  if (selectedTitle === 'Anime') {
+    return AnimeList;
+  }
+  if (selectedTitle === 'Sci-Fi') {
+    return SciFiList;
+  }
+  if (selectedTitle === 'Character') {
+    return CharacterList;
+  }
+  if (selectedTitle === 'Architecture') {
+    return ArchitectureList;
+  }
+  if (selectedTitle === 'Animal') {
+    return AnimalList;
+  }
+  if (selectedTitle === 'Art') {
+    return ArtImage;
+  }
+  return [];
+};
+
 const HomeScreen = ({navigation}: any) => {
-  // Ask for fle permission
-
-  useEffect(() => {
-    handleAndroidPermissions();
-  }, []);
-
   const [activeCategory, setActiveCategory] = useState({
     id: 1,
     color_1: '#2f36f5',
@@ -39,29 +61,64 @@ const HomeScreen = ({navigation}: any) => {
     title: 'All',
   });
 
-  const HandlerCategoryToShow = (selectedTitle: string) => {
-    if (selectedTitle === 'All') {
-      return ArtImage.sort((a: string, b: string) => a.length - b.length);
+  const [imageUrls, setImageUrls] = useState(
+    HandlerCategoryToShow(activeCategory.title).splice(0, 20),
+  );
+  // Ask for fle permission
+
+  useEffect(() => {
+    setImageUrls(HandlerCategoryToShow(activeCategory.title).splice(0, 20));
+  }, [activeCategory]);
+
+  useEffect(() => {
+    handleAndroidPermissions();
+  }, []);
+
+  const ItemsList = ({item}: any) => {
+    const [dimensions, setDimensions] = useState<{
+      width: number;
+      height: number;
+    } | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      Image.getSize(
+        item,
+        (width, height) => {
+          setDimensions({width, height});
+
+          setLoading(false);
+
+          // console.log({width, height});
+        },
+        error => {
+          console.error(error);
+          setLoading(false);
+        },
+      );
+    }, [item]);
+
+    if (loading) {
+      return <ActivityIndicator key={UUID()} size="large" color="#0000ff" />;
     }
-    if (selectedTitle === 'Anime') {
-      return AnimeList;
-    }
-    if (selectedTitle === 'Sci-Fi') {
-      return SciFiList;
-    }
-    if (selectedTitle === 'Character') {
-      return CharacterList;
-    }
-    if (selectedTitle === 'Architecture') {
-      return ArchitectureList;
-    }
-    if (selectedTitle === 'Animal') {
-      return AnimalList;
-    }
-    if (selectedTitle === 'Art') {
-      return ArtImage;
-    }
-    return [];
+
+    return (
+      <TouchableOpacity
+        key={UUID()}
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate('ItemView', {item, dimensions})}>
+        <Image
+          source={{uri: item}}
+          style={{
+            width: image_width,
+            height: Number(dimensions?.height) * 0.26,
+            margin: 2,
+            borderRadius: 16,
+          }}
+          resizeMode="cover"
+        />
+      </TouchableOpacity>
+    );
   };
 
   const renderItem = ({item}: any) => {
@@ -88,28 +145,43 @@ const HomeScreen = ({navigation}: any) => {
     );
   };
 
-  const ImageRender = ({item, index}: {item: string; index: number}) => {
-    const even = index % 2 === 0;
+  const [top, setTop] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
-    return (
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => navigation.navigate('ItemView', {item})}>
-        <Image
-          source={{uri: item}}
-          style={{
-            marginTop: even ? 0 : 10,
-            marginBottom: even ? 10 : 0,
-            width: SCREEEN_WIDTH * 0.46,
-            margin: 3,
-            borderRadius: 10,
-            height: even ? SCREEN_HEIGHT * 0.4 : SCREEN_HEIGHT * 0.42,
-            overflow: 'hidden',
-          }}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
-    );
+  const loadMoreData = async () => {
+    if (loading) return;
+
+    setLoading(true);
+    // Replace this with your data fetching logic
+
+    const newData: any = await fetchMoreData(page);
+
+    setImageUrls([...imageUrls, ...newData]);
+    setPage(page + 1);
+    setLoading(false);
+  };
+
+  const fetchMoreData = async (page: any) => {
+    // Mocking a network request
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const imagesUrls = HandlerCategoryToShow(activeCategory?.title).splice(
+          0,
+          20,
+        );
+
+        resolve(imagesUrls);
+      }, 1500);
+    });
+  };
+  console.log(imageUrls.length);
+  const renderFooter = () => {
+    return loading ? (
+      <View style={{padding: 10}}>
+        <ActivityIndicator size="large" />
+      </View>
+    ) : null;
   };
 
   return (
@@ -133,14 +205,17 @@ const HomeScreen = ({navigation}: any) => {
         horizontal={true}
       />
 
-      {/*Image View with Masonry List */}
       <MasonryFlashList
-        onEndReachedThreshold={20}
-        data={HandlerCategoryToShow(activeCategory?.title)}
+        onScrollToTop={renderFooter}
+        onEndReached={loadMoreData}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={renderFooter}
+        style={{flex: 1}}
         numColumns={2}
-        renderItem={({item, index}) => (
-          <ImageRender item={item} index={index} />
-        )}
+        data={imageUrls}
+        renderItem={({item, index}) => {
+          return <ItemsList item={item} />;
+        }}
         estimatedItemSize={200}
       />
     </View>

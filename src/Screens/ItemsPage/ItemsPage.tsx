@@ -17,7 +17,7 @@ import {client} from '../../utils/Appwrite';
 import MasonryList from '@react-native-seoul/masonry-list';
 import {useNavigation} from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
 import {
   UUID,
   deductCoinUpdateDownloadCount,
@@ -80,7 +80,7 @@ const ItemsPage = ({navigation}: any) => {
           <SkeletonPlaceholder.Item>
             <SkeletonPlaceholder.Item
               height={SCREEN_HEIGHT * 0.6}
-              width={SCREEEN_WIDTH * 0.9}
+              width={SCREEN_WIDTH * 0.9}
               borderRadius={10}
             />
           </SkeletonPlaceholder.Item>
@@ -134,7 +134,7 @@ const ItemsPage = ({navigation}: any) => {
             source={{uri: item?.imgURL}}
             style={{
               height: SCREEN_HEIGHT * 0.6,
-              width: SCREEEN_WIDTH * 0.9,
+              width: SCREEN_WIDTH * 0.9,
               borderRadius: 10,
               alignSelf: 'center',
             }}

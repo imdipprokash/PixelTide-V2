@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {SCREEEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../utils/Style';
 import {ArrowLeftIcon} from 'react-native-heroicons/solid';
 import {handleDownload} from '../../utils/UtilsFN';
 import AdsScreen from '../../components/AdsScreen';
@@ -19,6 +19,10 @@ import {
   TestIds,
 } from 'react-native-google-mobile-ads';
 import {REWARDED_ID} from '../../utils/AdsIds';
+import {
+  PhoneArrowDownLeftIcon,
+  VariableIcon,
+} from 'react-native-heroicons/outline';
 const adUnitId = __DEV__ ? TestIds.REWARDED : REWARDED_ID;
 
 const rewarded = RewardedAd.createForAdRequest(adUnitId, {
@@ -37,6 +41,34 @@ const ItemView = ({navigation}: any) => {
   const {params}: any = useRoute();
 
   const [loaded, setLoaded] = useState(false);
+
+  interface Dimensions {
+    height: number;
+    width: number;
+  }
+
+  function scaleDimensions(
+    dimensions: Dimensions,
+    maxHeight: number,
+    maxWidth: number,
+  ): Dimensions {
+    const {height, width} = dimensions;
+
+    // Calculate the scaling ratios needed to fit the dimensions within the constraints
+    const heightRatio = maxHeight / height;
+    const widthRatio = maxWidth / width;
+
+    // Use the smaller ratio to ensure both dimensions fit within the constraints
+    const scalingRatio = Math.min(heightRatio, widthRatio);
+
+    const newHeight = height * scalingRatio;
+    const newWidth = width * scalingRatio;
+
+    return {height: newHeight, width: newWidth};
+  }
+
+  const scaledDimensions = scaleDimensions(params?.dimensions, 920, 410);
+
   const handleShowAd = () => {
     if (!loaded) {
       rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
@@ -71,14 +103,20 @@ const ItemView = ({navigation}: any) => {
   }, []);
 
   return (
-    <View style={{flex: 1, paddingHorizontal: 10}}>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       {/* Reword ads */}
 
       {/* Status Bar */}
       <StatusBar backgroundColor={'#f2f2f2'} barStyle={'dark-content'} />
 
       {/* Ads */}
-      <View style={{position: 'absolute', zIndex: 19, bottom: 75}}>
+      <View style={{position: 'absolute', zIndex: 19, bottom: 95}}>
         <AdsScreen />
       </View>
 
@@ -95,20 +133,21 @@ const ItemView = ({navigation}: any) => {
           uri: params?.item,
         }}
         style={{
-          width: SCREEEN_WIDTH * 0.95,
-          height: SCREEN_HEIGHT * 0.96,
+          width: scaledDimensions.width - 15,
+          height: scaledDimensions?.height,
           borderRadius: 10,
+          // aspectRatio: 1,
         }}
-        resizeMode="stretch"
+        resizeMode="cover"
       />
 
       <TouchableOpacity
         onPress={() => {
           handleShowAd();
+          setIsLoading(true);
 
           handleDownload(params?.item);
-          setIsLoading(true);
-          ToastAndroid.showWithGravity(
+          ToastAndroid?.showWithGravity(
             'Downloading...',
             ToastAndroid.SHORT,
             ToastAndroid.CENTER,
@@ -116,12 +155,12 @@ const ItemView = ({navigation}: any) => {
           setIsLoading(true);
         }}
         style={{
-          width: SCREEEN_WIDTH * 0.9,
+          width: SCREEN_WIDTH * 0.9,
           height: SCREEN_HEIGHT * 0.06,
         }}
-        className=" flex flex-row justify-center space-x-1 absolute bottom-5 items-center  py-3   bg-blue-500 rounded-md self-center">
-        <Text className="text-white font-semibold text-center text-xl">
-          Download
+        className=" flex flex-row justify-center space-x-1 absolute bottom-10 items-center  py-3   bg-blue-500 rounded-md self-center">
+        <Text className="text-white font-semibold text-center text-lg">
+          Watch ads and Download
         </Text>
       </TouchableOpacity>
     </View>

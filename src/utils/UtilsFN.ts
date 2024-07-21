@@ -1,70 +1,113 @@
-import {Alert, PermissionsAndroid, Platform, ToastAndroid} from 'react-native';
+import {
+  Alert,
+  Linking,
+  PermissionsAndroid,
+  Platform,
+  ToastAndroid,
+} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-import DeviceInfo from 'react-native-device-info';
-// import {Databases, ID, Query} from 'appwrite';
-// import {client} from './Appwrite';
 
-// const databases = new Databases(client);
-
-export const handleAndroidPermissions = () => {
+export const handleAndroidPermissions = async (): Promise<boolean> => {
   if (Platform.OS === 'android' && Platform.Version >= 31) {
-    PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    ]).then(result => {
-      if (result) {
+    try {
+      const result = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      ]);
+
+      const granted = Object.values(result).every(
+        status => status === PermissionsAndroid.RESULTS.GRANTED,
+      );
+
+      if (granted) {
         console.debug(
           '[handleAndroidPermissions] User accepts runtime permissions android 12+',
         );
+        return true;
       } else {
         console.error(
           '[handleAndroidPermissions] User refuses runtime permissions android 12+',
         );
+        return false;
       }
-    });
+    } catch (err) {
+      console.error(
+        '[handleAndroidPermissions] Permission request error:',
+        err,
+      );
+      return false;
+    }
   } else if (Platform.OS === 'android' && Platform.Version >= 23) {
-    PermissionsAndroid?.check(
-      PermissionsAndroid?.PERMISSIONS.ACCESS_FINE_LOCATION,
-    ).then(checkResult => {
+    try {
+      const checkResult = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+
       if (checkResult) {
         console.debug(
-          '[handleAndroidPermissions] runtime permission Android <12 already OK',
+          '[handleAndroidPermissions] Runtime permission Android <12 already OK',
         );
+        return true;
       } else {
-        PermissionsAndroid?.request(
-          PermissionsAndroid?.PERMISSIONS.ACCESS_FINE_LOCATION,
-        ).then(requestResult => {
-          if (requestResult) {
-            console.debug(
-              '[handleAndroidPermissions] User accepts runtime permission android <12',
-            );
-          } else {
-            console.error(
-              '[handleAndroidPermissions] User refuses runtime permission android <12',
-            );
-          }
-        });
+        const requestResult = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+
+        if (requestResult === PermissionsAndroid.RESULTS.GRANTED) {
+          console.debug(
+            '[handleAndroidPermissions] User accepts runtime permission android <12',
+          );
+          return true;
+        } else {
+          console.error(
+            '[handleAndroidPermissions] User refuses runtime permission android <12',
+          );
+          return false;
+        }
       }
-    });
+    } catch (err) {
+      console.error(
+        '[handleAndroidPermissions] Permission request error:',
+        err,
+      );
+      return false;
+    }
   }
+  return true;
 };
 
 export const handleDownload = async (url: string) => {
-  // if device is android you have to ensure you have permission
-  // if (Platform.OS === 'android' && Platform.Version >= 31) {
-  //   handleAndroidPermissions();
-  // }
-  // let ext = getExtention(url);
-  const {fs} = RNFetchBlob;
-  let PictureDir = fs?.dirs?.DownloadDir;
+  // Ensure you have permission if the device is android
+  if (Platform.OS === 'android' && Platform.Version >= 23) {
+    const permissionsGranted = await handleAndroidPermissions();
+    if (!permissionsGranted) {
+      Alert.alert(
+        'Permissions Required',
+        'The app needs permissions to download files. Please enable them in the app settings.',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'Open Settings', onPress: () => Linking.openSettings()},
+        ],
+        {cancelable: false},
+      );
+      return;
+    }
+  }
 
   try {
+    const {fs} = RNFetchBlob;
+    let PictureDir = fs.dirs.DownloadDir;
+    const dirPath = PictureDir + '/PixelTide';
+
+    // Ensure the directory exists
+    if (!(await fs.exists(dirPath))) {
+      await fs.mkdir(dirPath);
+    }
+
     const imgPath =
-      PictureDir +
-      '/PixelTide/pixel_tide' +
-      Math.floor(Math.random() * 10000) +
-      '.jpg';
-    await RNFetchBlob?.config({
+      dirPath + '/pixel_tide' + Math.floor(Math.random() * 10000) + '.jpg';
+
+    await RNFetchBlob.config({
       fileCache: true,
       appendExt: 'png',
       addAndroidDownloads: {
@@ -77,7 +120,7 @@ export const handleDownload = async (url: string) => {
       path: imgPath,
     })
       .fetch('GET', url)
-      .then(res => {
+      .then(() => {
         ToastAndroid.showWithGravity(
           'Download successful, Please check your download folder.',
           ToastAndroid.SHORT,
