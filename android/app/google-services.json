@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "41276471382",
+    "project_id": "pixeltide-35906",
+    "storage_bucket": "pixeltide-35906.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41276471382:android:58411629463ca064d1a3f7",
+        "android_client_info": {
+          "package_name": "com.pixeltide.jdx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiKGe7LWLADT5kESRGdxhpABuKw5cNIzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

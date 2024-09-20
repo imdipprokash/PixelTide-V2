@@ -2,6 +2,8 @@ import {StyleSheet, Text, View, SafeAreaView, StatusBar} from 'react-native';
 import React from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 import SearchBar from '../../components/SearchBar';
+import BestOfTheMonth from './BestOfTheMonth';
+import Categories from './Categories';
 
 type Props = {};
 
@@ -16,7 +18,10 @@ const HomeScreen = (props: Props) => {
       <View style={styles.mainContainer}>
         {/* SearchBar */}
         <SearchBar />
-        <Text style={styles.titleTextStyle}>Best of the month</Text>
+        {/* Best of the month */}
+        <BestOfTheMonth />
+        {/* Categories */}
+        <Categories />
       </View>
     </SafeAreaView>
   );
@@ -30,10 +35,5 @@ const styles = StyleSheet.create({
     marginTop: SIZES.ScreenHeight * 0.08,
     paddingHorizontal: 16,
     gap: 15,
-  },
-  titleTextStyle: {
-    color: AppColor.titleTextColor,
-    fontSize: 18,
-    fontFamily: 'PTSansBold',
   },
 });
