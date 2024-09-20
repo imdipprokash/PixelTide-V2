@@ -14,6 +14,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-PixelTide-PixelTideTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-PixelTide-PixelTideTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		0EEC0135C981429F8EE3F9B8 /* AlefBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 844352BA4DD84C4C8BB7ACB5 /* AlefBold.ttf */; };
+		FC267ECDFDF348A0A9189181 /* AlefRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF7DB7A4E2F84C409ED157D2 /* AlefRegular.ttf */; };
+		F680E0ED4BEC419ABB855859 /* PTSansBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADE6CDF7FA904F77A5BF1FBF /* PTSansBold.ttf */; };
+		A133858F31E64CB0972E73A8 /* PTSansBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3ABEEA79AE1D478DBB61002F /* PTSansBoldItalic.ttf */; };
+		AD32592375754A3380FDC782 /* PTSansItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0749074642E44A2193249C1D /* PTSansItalic.ttf */; };
+		4E03C3DDD46543B39308FCB5 /* PTSansRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E39BC9E9D2A548BE9078A690 /* PTSansRegular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,12 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PixelTide/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-PixelTide-PixelTideTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelTide-PixelTideTests.release.xcconfig"; path = "Target Support Files/Pods-PixelTide-PixelTideTests/Pods-PixelTide-PixelTideTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		844352BA4DD84C4C8BB7ACB5 /* AlefBold.ttf */ = {isa = PBXFileReference; name = "AlefBold.ttf"; path = "../src/assets/fonts/AlefBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EF7DB7A4E2F84C409ED157D2 /* AlefRegular.ttf */ = {isa = PBXFileReference; name = "AlefRegular.ttf"; path = "../src/assets/fonts/AlefRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ADE6CDF7FA904F77A5BF1FBF /* PTSansBold.ttf */ = {isa = PBXFileReference; name = "PTSansBold.ttf"; path = "../src/assets/fonts/PTSansBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3ABEEA79AE1D478DBB61002F /* PTSansBoldItalic.ttf */ = {isa = PBXFileReference; name = "PTSansBoldItalic.ttf"; path = "../src/assets/fonts/PTSansBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0749074642E44A2193249C1D /* PTSansItalic.ttf */ = {isa = PBXFileReference; name = "PTSansItalic.ttf"; path = "../src/assets/fonts/PTSansItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E39BC9E9D2A548BE9078A690 /* PTSansRegular.ttf */ = {isa = PBXFileReference; name = "PTSansRegular.ttf"; path = "../src/assets/fonts/PTSansRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +134,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				BCFF1F823DC042049F450215 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +160,20 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		BCFF1F823DC042049F450215 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				844352BA4DD84C4C8BB7ACB5 /* AlefBold.ttf */,
+				EF7DB7A4E2F84C409ED157D2 /* AlefRegular.ttf */,
+				ADE6CDF7FA904F77A5BF1FBF /* PTSansBold.ttf */,
+				3ABEEA79AE1D478DBB61002F /* PTSansBoldItalic.ttf */,
+				0749074642E44A2193249C1D /* PTSansItalic.ttf */,
+				E39BC9E9D2A548BE9078A690 /* PTSansRegular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +271,12 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0EEC0135C981429F8EE3F9B8 /* AlefBold.ttf in Resources */,
+				FC267ECDFDF348A0A9189181 /* AlefRegular.ttf in Resources */,
+				F680E0ED4BEC419ABB855859 /* PTSansBold.ttf in Resources */,
+				A133858F31E64CB0972E73A8 /* PTSansBoldItalic.ttf in Resources */,
+				AD32592375754A3380FDC782 /* PTSansItalic.ttf in Resources */,
+				4E03C3DDD46543B39308FCB5 /* PTSansRegular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

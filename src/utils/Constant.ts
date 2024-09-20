@@ -1,3 +1,5 @@
+import {Dimensions} from 'react-native';
+
 export const DUMMY_TITLES = [
   {id: '1', title: 'All', onClick: () => {}},
   {id: '2', title: 'New', onClick: () => {}},
@@ -56,3 +58,13 @@ export const GradientColors = [
     title: 'Art',
   },
 ];
+
+export const AppColor = {
+  bgColor: '#DFEBF3',
+  iconColor: '#999',
+  titleTextColor: '#000',
+};
+export const SIZES = {
+  ScreenWidth: Dimensions.get('screen').width,
+  ScreenHeight: Dimensions.get('screen').height,
+};

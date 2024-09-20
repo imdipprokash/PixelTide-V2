@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/AlefBold.ttf",
+      "sha1": "ad234751833d229ada7f69049407ed8f1e1db0cd"
+    },
+    {
+      "path": "src/assets/fonts/AlefRegular.ttf",
+      "sha1": "6cebb24b5d0597be61bf396439703b1ecd000411"
+    },
+    {
+      "path": "src/assets/fonts/PTSansBold.ttf",
+      "sha1": "356c8987ef7a8752108cf7b7a86d1f1bf0c60999"
+    },
+    {
+      "path": "src/assets/fonts/PTSansBoldItalic.ttf",
+      "sha1": "8909d6fd6c65904e10ae48052fb49a29a3294ea3"
+    },
+    {
+      "path": "src/assets/fonts/PTSansItalic.ttf",
+      "sha1": "fb0639634daaf32b25aa4284fc91256fef10855a"
+    },
+    {
+      "path": "src/assets/fonts/PTSansRegular.ttf",
+      "sha1": "641626d5d6a625a1e46e09ceb806cf33d1c1867e"
+    }
+  ]
+}
