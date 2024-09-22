@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, View, FlatList} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 // import {FlashList} from '@shopify/flash-list';
@@ -13,10 +20,16 @@ const BestOfTheMonth = (props: Props) => {
       <View
         key={item?.id}
         style={{marginRight: 20, borderRadius: 16, overflow: 'hidden'}}>
-        <Image
-          source={{uri: item?.image_path}}
-          style={{width: 200, height: 300, borderRadius: 16}}
-        />
+        <TouchableOpacity activeOpacity={0.6}>
+          <Image
+            source={{uri: item?.image_path}}
+            style={{
+              width: SIZES.ScreenWidth * 0.5,
+              height: SIZES.ScreenHeight * 0.3,
+              borderRadius: 16,
+            }}
+          />
+        </TouchableOpacity>
       </View>
     );
   };

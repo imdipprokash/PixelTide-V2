@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, SafeAreaView, StatusBar} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 import SearchBar from '../../components/SearchBar';
@@ -15,14 +22,17 @@ const HomeScreen = (props: Props) => {
         backgroundColor={'transparent'}
         barStyle={'dark-content'}
       />
-      <View style={styles.mainContainer}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{gap: 15}}
+        style={styles.mainContainer}>
         {/* SearchBar */}
         <SearchBar />
         {/* Best of the month */}
         <BestOfTheMonth />
         {/* Categories */}
         <Categories />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -34,6 +44,5 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: SIZES.ScreenHeight * 0.08,
     paddingHorizontal: 16,
-    gap: 15,
   },
 });
