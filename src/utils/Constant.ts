@@ -68,3 +68,4 @@ export const SIZES = {
   ScreenWidth: Dimensions.get('screen').width,
   ScreenHeight: Dimensions.get('screen').height,
 };
+export const baseUrl = 'https://jdxpvt.netlify.app/api';

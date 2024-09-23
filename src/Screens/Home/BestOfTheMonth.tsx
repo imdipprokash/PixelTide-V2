@@ -6,23 +6,34 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
-// import {FlashList} from '@shopify/flash-list';
 import {UUID} from '../../utils/UtilsFN';
-import {Images} from '../../Database/TempFile';
+import {GetImages} from '../../apis/Images';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 type Props = {};
 
 const BestOfTheMonth = (props: Props) => {
+  const [data, setData] = useState([]);
+  const GetBestOfMonth = async () => {
+    const res = await GetImages();
+    if (res !== 0) {
+      setData(res);
+    }
+  };
+  useEffect(() => {
+    GetBestOfMonth();
+  }, []);
+
   const renderItem = ({item}: any) => {
     return (
       <View
-        key={item?.id}
+        key={UUID()}
         style={{marginRight: 20, borderRadius: 16, overflow: 'hidden'}}>
         <TouchableOpacity activeOpacity={0.6}>
           <Image
-            source={{uri: item?.image_path}}
+            source={{uri: item?.image_url}}
             style={{
               width: SIZES.ScreenWidth * 0.5,
               height: SIZES.ScreenHeight * 0.3,
@@ -36,13 +47,28 @@ const BestOfTheMonth = (props: Props) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.titleTextStyle}>Best of the month</Text>
-      <FlatList
-        // estimatedItemSize={400}
-        data={Images}
-        renderItem={renderItem}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      />
+      {/* Show Images or skelton */}
+      {data?.length === 0 ? (
+        <SkeletonPlaceholder borderRadius={16}>
+          <SkeletonPlaceholder.Item gap={20} flexDirection="row">
+            <SkeletonPlaceholder.Item
+              width={SIZES.ScreenWidth * 0.5}
+              height={SIZES.ScreenHeight * 0.3}
+            />
+            <SkeletonPlaceholder.Item
+              width={SIZES.ScreenWidth * 0.5}
+              height={SIZES.ScreenHeight * 0.3}
+            />
+          </SkeletonPlaceholder.Item>
+        </SkeletonPlaceholder>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
