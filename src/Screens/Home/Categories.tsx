@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 import {Categories_Data} from '../../Database/TempFile';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const Categories = (props: Props) => {
   };
 
   const rows = chunkArray(Categories_Data, 2);
+  const nav = useNavigation<any>();
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.titleTextStyle}>Categories</Text>
@@ -31,6 +33,9 @@ const Categories = (props: Props) => {
           <View style={styles.row} key={rowIndex}>
             {row.map((item: any, index: any) => (
               <TouchableOpacity
+                onPress={() =>
+                  nav.navigate('CategoryScr', {category_id: 394857390845})
+                }
                 key={index}
                 activeOpacity={0.7}
                 style={styles.btnStyle}>

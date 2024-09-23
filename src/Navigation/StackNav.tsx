@@ -6,6 +6,7 @@ import ItemsPage from '../Screens/ItemsPage/ItemsPage';
 import ItemView from '../Screens/ItemsPage/ItemView';
 import Wallet from '../Screens/Wallet/Wallet';
 import ItemOverview from '../Screens/ItemOverview/ItemOverview';
+import CategoryScr from '../Screens/Category/CategoryScr';
 
 type Props = {};
 
@@ -18,7 +19,7 @@ const StackNav = (props: Props) => {
       }}>
       <Stack.Screen name="leadingPage" component={HomeScreen} />
       <Stack.Screen name="ItemOverview" component={ItemOverview} />
-      <Stack.Screen name="ItemView" component={ItemView} />
+      <Stack.Screen name="CategoryScr" component={CategoryScr} />
       <Stack.Screen name="Wallet" component={Wallet} />
     </Stack.Navigator>
   );
