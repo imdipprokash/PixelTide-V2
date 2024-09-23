@@ -11,11 +11,14 @@ import {AppColor, SIZES} from '../../utils/Constant';
 import {UUID} from '../../utils/UtilsFN';
 import {GetImages} from '../../apis/Images';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {};
 
 const BestOfTheMonth = (props: Props) => {
   const [data, setData] = useState([]);
+
+  const nav = useNavigation<any>();
   const GetBestOfMonth = async () => {
     const res = await GetImages();
     if (res !== 0) {
@@ -31,11 +34,16 @@ const BestOfTheMonth = (props: Props) => {
       <View
         key={UUID()}
         style={{marginRight: 20, borderRadius: 16, overflow: 'hidden'}}>
-        <TouchableOpacity activeOpacity={0.6}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() =>
+            nav.navigate('ItemOverview', {image_url: item?.image_url})
+          }>
           <Image
             source={{uri: item?.image_url}}
+            resizeMode={'stretch'}
             style={{
-              width: SIZES.ScreenWidth * 0.5,
+              width: SIZES.ScreenWidth * 0.4,
               height: SIZES.ScreenHeight * 0.3,
               borderRadius: 16,
             }}
@@ -52,11 +60,15 @@ const BestOfTheMonth = (props: Props) => {
         <SkeletonPlaceholder borderRadius={16}>
           <SkeletonPlaceholder.Item gap={20} flexDirection="row">
             <SkeletonPlaceholder.Item
-              width={SIZES.ScreenWidth * 0.5}
+              width={SIZES.ScreenWidth * 0.4}
               height={SIZES.ScreenHeight * 0.3}
             />
             <SkeletonPlaceholder.Item
-              width={SIZES.ScreenWidth * 0.5}
+              width={SIZES.ScreenWidth * 0.4}
+              height={SIZES.ScreenHeight * 0.3}
+            />
+            <SkeletonPlaceholder.Item
+              width={SIZES.ScreenWidth * 0.4}
               height={SIZES.ScreenHeight * 0.3}
             />
           </SkeletonPlaceholder.Item>

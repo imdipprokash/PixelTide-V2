@@ -63,6 +63,8 @@ export const AppColor = {
   bgColor: '#DFEBF3',
   iconColor: '#999',
   titleTextColor: '#000',
+  btnBgColor: '#d4d4d8',
+  activeBgColor: '#3F64F5',
 };
 export const SIZES = {
   ScreenWidth: Dimensions.get('screen').width,
