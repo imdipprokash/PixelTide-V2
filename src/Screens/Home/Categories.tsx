@@ -64,8 +64,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     gap: 15,
   },
-
-  //
   container: {
     flex: 1,
     gap: 15,

@@ -78,8 +78,8 @@ const ItemOverview = ({route}: any) => {
           activeOpacity={0.7}>
           <InfoIcon
             color="#fff"
-            width={20}
-            height={20}
+            width={15}
+            height={15}
             style={{
               padding: 20,
             }}
@@ -99,8 +99,8 @@ const ItemOverview = ({route}: any) => {
           activeOpacity={0.7}>
           <DownloadIcon
             color="#fff"
-            width={20}
-            height={20}
+            width={15}
+            height={15}
             style={{
               padding: 20,
             }}
@@ -120,8 +120,8 @@ const ItemOverview = ({route}: any) => {
           activeOpacity={0.7}>
           <BrushIcon
             color="#fff"
-            width={20}
-            height={20}
+            width={15}
+            height={15}
             style={{
               padding: 20,
             }}

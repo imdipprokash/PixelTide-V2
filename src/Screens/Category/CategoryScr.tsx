@@ -27,6 +27,7 @@ const CategoryScr = (props: Props) => {
 
     return (
       <TouchableOpacity
+        key={UUID()}
         style={{flexGrow: 1, alignItems: 'center'}}
         onPress={() => {
           nav.navigate('ItemOverview', {image_url: item?.image_url});
@@ -58,7 +59,10 @@ const CategoryScr = (props: Props) => {
         <SkeletonPlaceholder.Item gap={20} flexDirection="column">
           {items?.map((item, index) => {
             return (
-              <SkeletonPlaceholder.Item gap={20} flexDirection="row">
+              <SkeletonPlaceholder.Item
+                key={UUID()}
+                gap={20}
+                flexDirection="row">
                 <SkeletonPlaceholder.Item
                   key={UUID()}
                   width={SIZES.ScreenWidth * 0.43}
