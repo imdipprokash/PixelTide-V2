@@ -11,7 +11,34 @@ type Props = {
 
 const rewarded = RewardedAd.createForAdRequest(REWARDED_ID, {
   requestNonPersonalizedAdsOnly: true,
-  keywords: ['fashion', 'clothing'],
+  keywords: [
+    'fashion',
+    'clothing',
+    'insurance',
+    'mortgage',
+    'lawyer',
+    'real estate',
+    'loans',
+    'credit card',
+    'investment',
+    'finance',
+    'software',
+    'technology',
+    'automobile',
+    'education',
+    'healthcare',
+    'travel',
+    'luxury',
+    'cryptocurrency',
+    'banking',
+    'personal finance',
+    'wellness',
+    'online education',
+    'retirement planning',
+    'home improvement',
+    'cosmetics',
+    'high-end gadgets',
+  ],
 });
 
 const RewardVideoAds = ({adsShowHnadler}: Props) => {

@@ -16,13 +16,42 @@ import {
   TestIds,
   AdEventType,
 } from 'react-native-google-mobile-ads';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {UUID} from '../../utils/UtilsFN';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
   : 'ca-app-pub-3346761957556908/9282538858';
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
+  keywords: [
+    'fashion',
+    'clothing',
+    'insurance',
+    'mortgage',
+    'lawyer',
+    'real estate',
+    'loans',
+    'credit card',
+    'investment',
+    'finance',
+    'software',
+    'technology',
+    'automobile',
+    'education',
+    'healthcare',
+    'travel',
+    'luxury',
+    'cryptocurrency',
+    'banking',
+    'personal finance',
+    'wellness',
+    'online education',
+    'retirement planning',
+    'home improvement',
+    'cosmetics',
+    'high-end gadgets',
+  ],
 });
 
 type Props = {};
@@ -64,45 +93,69 @@ const Categories = (props: Props) => {
     GetCategoryHandler();
   }, []);
 
+  const skeletonRows = chunkArray(
+    [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}],
+    2,
+  );
   const rows = chunkArray(categories, 2);
 
   const nav = useNavigation<any>();
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.titleTextStyle}>Categories</Text>
+      {categories.length === 0 ? (
+        // Skeleton
+        <View style={styles.container}>
+          {skeletonRows.map((row, rowIndex) => (
+            <View style={styles.row} key={rowIndex}>
+              {row.map((item: any, index: any) => (
+                <SkeletonPlaceholder key={UUID()}>
+                  <SkeletonPlaceholder.Item
+                    borderRadius={16}
+                    width={SIZES.ScreenWidth * 0.44}
+                    height={SIZES.ScreenHeight * 0.12}
+                  />
+                </SkeletonPlaceholder>
+              ))}
+            </View>
+          ))}
+        </View>
+      ) : (
+        // Categories
 
-      <View style={styles.container}>
-        {rows.map((row, rowIndex) => (
-          <View style={styles.row} key={rowIndex}>
-            {row.map((item: any, index: any) => (
-              <TouchableOpacity
-                onPress={() => {
-                  if (loaded) {
-                    interstitial.show().then(() => {
-                      setLoaded(false);
+        <View style={styles.container}>
+          {rows.map((row, rowIndex) => (
+            <View style={styles.row} key={rowIndex}>
+              {row.map((item: any, index: any) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    if (loaded) {
+                      interstitial.show().then(() => {
+                        setLoaded(false);
+                        nav.navigate('CategoryScr', {
+                          category_name: item?.category_name,
+                        });
+                      });
+                    } else {
                       nav.navigate('CategoryScr', {
                         category_name: item?.category_name,
                       });
-                    });
-                  } else {
-                    nav.navigate('CategoryScr', {
-                      category_name: item?.category_name,
-                    });
-                  }
-                }}
-                key={index}
-                activeOpacity={0.7}
-                style={styles.btnStyle}>
-                <ImageBackground
-                  source={{uri: item?.image_url}}
-                  style={styles.bgImage}
-                />
-                <Text style={styles.textStyle}>{item?.category_name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        ))}
-      </View>
+                    }
+                  }}
+                  key={index}
+                  activeOpacity={0.7}
+                  style={styles.btnStyle}>
+                  <ImageBackground
+                    source={{uri: item?.image_url}}
+                    style={styles.bgImage}
+                  />
+                  <Text style={styles.textStyle}>{item?.category_name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          ))}
+        </View>
+      )}
     </View>
   );
 };

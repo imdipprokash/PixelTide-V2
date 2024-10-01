@@ -24,8 +24,6 @@ const HomeScreen = (props: Props) => {
         <SearchBar />
         {/* Best of the month */}
         <BestOfTheMonth />
-        {/* Ads */}
-        <AdsScreen />
         {/* Categories */}
         <Categories />
       </ScrollView>

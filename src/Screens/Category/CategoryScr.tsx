@@ -20,7 +20,34 @@ const adUnitId = __DEV__
   : 'ca-app-pub-3346761957556908/9282538858';
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
+  keywords: [
+    'fashion',
+    'clothing',
+    'insurance',
+    'mortgage',
+    'lawyer',
+    'real estate',
+    'loans',
+    'credit card',
+    'investment',
+    'finance',
+    'software',
+    'technology',
+    'automobile',
+    'education',
+    'healthcare',
+    'travel',
+    'luxury',
+    'cryptocurrency',
+    'banking',
+    'personal finance',
+    'wellness',
+    'online education',
+    'retirement planning',
+    'home improvement',
+    'cosmetics',
+    'high-end gadgets',
+  ],
 });
 
 type Props = {};
@@ -145,14 +172,14 @@ const CategoryScr = ({route}: any) => {
           renderItem={renderItem}
         />
       )}
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           bottom: 1,
           alignSelf: 'center',
         }}>
         <AdsScreen />
-      </View>
+      </View> */}
     </View>
   );
 };
