@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
-import {GetImages} from '../../apis/Images';
+import {GetImageByCategory} from '../../apis/Images';
 import {FlashList} from '@shopify/flash-list';
 import {useNavigation} from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -9,17 +9,20 @@ import {UUID} from '../../utils/UtilsFN';
 
 type Props = {};
 
-const CategoryScr = (props: Props) => {
+const CategoryScr = ({route}: any) => {
+  const {category_name} = route.params;
+  console.log(category_name);
   const nav = useNavigation<any>();
   const [data, setData] = useState([]);
-  const GetBestOfMonth = async () => {
-    const res = await GetImages();
-    if (res !== 0) {
-      setData(res);
+  const GetImageByCategoryHandler = async () => {
+    const res = await GetImageByCategory({category_name: category_name});
+
+    if (res?.data) {
+      setData(res?.data);
     }
   };
   useEffect(() => {
-    GetBestOfMonth();
+    GetImageByCategoryHandler();
   }, []);
 
   const renderItem = ({item, index}: any) => {
@@ -88,8 +91,10 @@ const CategoryScr = (props: Props) => {
 
   return (
     <View style={styles?.mainContainer}>
-      <Text style={styles.titleTextStyle}>Nature</Text>
-      <Text style={styles.subTextStyle}>36 wallpaper available </Text>
+      <Text style={styles.titleTextStyle}>{category_name}</Text>
+      <Text style={styles.subTextStyle}>
+        {data.length} wallpaper available{' '}
+      </Text>
       {data?.length === 0 ? (
         SkeltonView()
       ) : (

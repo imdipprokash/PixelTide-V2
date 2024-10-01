@@ -36,7 +36,6 @@ const Categories = (props: Props) => {
 
   const rows = chunkArray(categories, 2);
 
-  console.log(rows);
   const nav = useNavigation<any>();
   return (
     <View style={styles.mainContainer}>
@@ -48,7 +47,9 @@ const Categories = (props: Props) => {
             {row.map((item: any, index: any) => (
               <TouchableOpacity
                 onPress={() =>
-                  nav.navigate('CategoryScr', {category_id: 394857390845})
+                  nav.navigate('CategoryScr', {
+                    category_name: item?.category_name,
+                  })
                 }
                 key={index}
                 activeOpacity={0.7}
