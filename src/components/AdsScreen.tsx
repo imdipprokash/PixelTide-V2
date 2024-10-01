@@ -1,5 +1,9 @@
 import {StyleSheet, Text, View} from 'react-native';
-import {GAMBannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import {
+  GAMBannerAd,
+  BannerAdSize,
+  TestIds,
+} from 'react-native-google-mobile-ads';
 import React from 'react';
 import {BANNER_ID3} from '../utils/AdsIds';
 
@@ -8,23 +12,28 @@ type Props = {
 };
 
 const AdsScreen = ({ADS_ID}: Props) => {
+  const adUnitId = __DEV__
+    ? TestIds.BANNER
+    : 'ca-app-pub-3346761957556908/7107400022';
   return (
     <GAMBannerAd
-      unitId={ADS_ID ? ADS_ID : BANNER_ID3}
+      unitId={adUnitId}
       sizes={[BannerAdSize.ANCHORED_ADAPTIVE_BANNER]}
       requestOptions={{
         requestNonPersonalizedAdsOnly: true,
       }}
-      onAdLoaded={() => {
-        console.log('Ad loaded');
-      }}
-      onAdFailedToLoad={error => {
-        console.error('Ad failed to load: ', error);
-      }}
+      onAdLoaded={() => {}}
+      onAdFailedToLoad={error => {}}
     />
   );
 };
 
 export default AdsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

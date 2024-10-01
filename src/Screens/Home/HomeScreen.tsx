@@ -1,16 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-} from 'react-native';
-import React from 'react';
+import {StyleSheet, SafeAreaView, StatusBar, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 import SearchBar from '../../components/SearchBar';
 import BestOfTheMonth from './BestOfTheMonth';
 import Categories from './Categories';
+import AdsScreen from '../../components/AdsScreen';
 
 type Props = {};
 
@@ -30,6 +24,8 @@ const HomeScreen = (props: Props) => {
         <SearchBar />
         {/* Best of the month */}
         <BestOfTheMonth />
+        {/* Ads */}
+        <AdsScreen />
         {/* Categories */}
         <Categories />
       </ScrollView>

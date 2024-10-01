@@ -1,5 +1,4 @@
 import {
-  FlatList,
   ImageBackground,
   StyleSheet,
   Text,
@@ -8,8 +7,23 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {GetImageCategory} from '../../apis/Images';
+
+// ads ins
+import {
+  InterstitialAd,
+  TestIds,
+  AdEventType,
+} from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : 'ca-app-pub-3346761957556908/9282538858';
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  keywords: ['fashion', 'clothing'],
+});
 
 type Props = {};
 
@@ -29,6 +43,22 @@ const Categories = (props: Props) => {
       setCategories(result);
     }
   };
+  const [loaded, setLoaded] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const unsubscribe = interstitial.addAdEventListener(
+        AdEventType.LOADED,
+        () => {
+          setLoaded(true);
+        },
+      );
+
+      interstitial.load();
+
+      return unsubscribe;
+    }, [loaded]),
+  );
 
   useEffect(() => {
     GetCategoryHandler();
@@ -46,11 +76,20 @@ const Categories = (props: Props) => {
           <View style={styles.row} key={rowIndex}>
             {row.map((item: any, index: any) => (
               <TouchableOpacity
-                onPress={() =>
-                  nav.navigate('CategoryScr', {
-                    category_name: item?.category_name,
-                  })
-                }
+                onPress={() => {
+                  if (loaded) {
+                    interstitial.show().then(() => {
+                      setLoaded(false);
+                      nav.navigate('CategoryScr', {
+                        category_name: item?.category_name,
+                      });
+                    });
+                  } else {
+                    nav.navigate('CategoryScr', {
+                      category_name: item?.category_name,
+                    });
+                  }
+                }}
                 key={index}
                 activeOpacity={0.7}
                 style={styles.btnStyle}>

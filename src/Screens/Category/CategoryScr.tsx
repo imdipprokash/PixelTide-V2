@@ -3,17 +3,34 @@ import React, {useEffect, useState} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 import {GetImageByCategory} from '../../apis/Images';
 import {FlashList} from '@shopify/flash-list';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {UUID} from '../../utils/UtilsFN';
+import AdsScreen from '../../components/AdsScreen';
+
+// ads ins
+import {
+  InterstitialAd,
+  TestIds,
+  AdEventType,
+} from 'react-native-google-mobile-ads';
+
+const adUnitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : 'ca-app-pub-3346761957556908/9282538858';
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  keywords: ['fashion', 'clothing'],
+});
 
 type Props = {};
 
 const CategoryScr = ({route}: any) => {
   const {category_name} = route.params;
-  console.log(category_name);
   const nav = useNavigation<any>();
   const [data, setData] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
   const GetImageByCategoryHandler = async () => {
     const res = await GetImageByCategory({category_name: category_name});
 
@@ -25,6 +42,21 @@ const CategoryScr = ({route}: any) => {
     GetImageByCategoryHandler();
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const unsubscribe = interstitial.addAdEventListener(
+        AdEventType.LOADED,
+        () => {
+          setLoaded(true);
+        },
+      );
+
+      interstitial.load();
+
+      return unsubscribe;
+    }, [loaded]),
+  );
+
   const renderItem = ({item, index}: any) => {
     const is1StCol = index % 2 === 0 ? true : false;
 
@@ -33,7 +65,14 @@ const CategoryScr = ({route}: any) => {
         key={UUID()}
         style={{flexGrow: 1, alignItems: 'center'}}
         onPress={() => {
-          nav.navigate('ItemOverview', {image_url: item?.image_url});
+          if (loaded) {
+            interstitial.show().then(() => {
+              setLoaded(false);
+              nav.navigate('ItemOverview', {image_url: item?.image_url});
+            });
+          } else {
+            nav.navigate('ItemOverview', {image_url: item?.image_url});
+          }
         }}>
         <Image
           source={{uri: item?.image_url}}
@@ -106,6 +145,14 @@ const CategoryScr = ({route}: any) => {
           renderItem={renderItem}
         />
       )}
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 1,
+          alignSelf: 'center',
+        }}>
+        <AdsScreen />
+      </View>
     </View>
   );
 };

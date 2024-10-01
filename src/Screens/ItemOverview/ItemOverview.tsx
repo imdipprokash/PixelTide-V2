@@ -6,13 +6,17 @@ import {
   ImageBackground,
   TouchableOpacity,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
 import {BackIcon, BrushIcon, DownloadIcon, InfoIcon} from '../../assets/svg';
 import {useNavigation} from '@react-navigation/native';
 import {SCREEN_HEIGHT} from '../../utils/Style';
-// import {getColors} from 'react-native-image-colors';
+//@ts-ignore
+import ManageWallpaper, {TYPE} from 'react-native-manage-wallpaper';
+import {grantPermission} from '../../utils/Helper';
+import AdsScreen from '../../components/AdsScreen';
 
 type Props = {};
 
@@ -20,6 +24,7 @@ const ItemOverview = ({route}: any) => {
   const {image_url} = route.params;
 
   const nav = useNavigation();
+
   return (
     <View style={{flex: 1}}>
       <StatusBar translucent backgroundColor={'transparent'} />
@@ -55,7 +60,7 @@ const ItemOverview = ({route}: any) => {
 
       <View
         style={{
-          bottom: 40,
+          bottom: 60,
           position: 'absolute',
           flexDirection: 'row',
           flexGrow: 1,
@@ -64,7 +69,7 @@ const ItemOverview = ({route}: any) => {
           alignContent: 'center',
           justifyContent: 'space-between',
         }}>
-        <TouchableHighlight
+        {/* <TouchableHighlight
           onPress={() => {
             console.log('Hijsakhk');
           }}
@@ -84,10 +89,10 @@ const ItemOverview = ({route}: any) => {
               padding: 20,
             }}
           />
-        </TouchableHighlight>
+        </TouchableHighlight> */}
         <TouchableHighlight
           onPress={() => {
-            console.log('Hijsakhk');
+            grantPermission(image_url);
           }}
           underlayColor={AppColor.activeBgColor}
           style={{
@@ -108,7 +113,19 @@ const ItemOverview = ({route}: any) => {
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => {
-            console.log('Hijsakhk');
+            try {
+              ManageWallpaper?.setWallpaper(
+                {
+                  uri: image_url,
+                },
+                (res: {msg: string; status: string; url: string}) => {
+                  Alert.alert(res?.msg);
+                },
+                TYPE?.HOME,
+              );
+            } catch (error) {
+              console.log(error);
+            }
           }}
           underlayColor={AppColor.activeBgColor}
           style={{
@@ -128,6 +145,15 @@ const ItemOverview = ({route}: any) => {
           />
         </TouchableHighlight>
       </View>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: -5,
+          alignSelf: 'center',
+          zIndex: 1,
+        }}>
+        <AdsScreen />
+      </View>
     </View>
   );
 };
@@ -135,3 +161,6 @@ const ItemOverview = ({route}: any) => {
 export default ItemOverview;
 
 const styles = StyleSheet.create({});
+function granted() {
+  throw new Error('Function not implemented.');
+}

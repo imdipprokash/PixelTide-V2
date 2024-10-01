@@ -3443,6 +3443,7 @@ __metadata:
     react-native-google-mobile-ads: ^11.1.1
     react-native-heroicons: ^3.2.0
     react-native-linear-gradient: ^2.8.3
+    react-native-manage-wallpaper: ^1.2.1
     react-native-reanimated: ^3.3.0
     react-native-safe-area-context: ^4.6.3
     react-native-screens: ^3.22.0
@@ -9659,6 +9660,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
+  languageName: node
+  linkType: hard
+
+"react-native-manage-wallpaper@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "react-native-manage-wallpaper@npm:1.2.1"
+  checksum: f454a69cbbeea9c676ebca4bcb27d54196ed95955982ab7c91c640dc857c4c452d4bcbe09adf6e3998fb3492ba19557115c297e42d38b25e3121f246ae64d547
   languageName: node
   linkType: hard
 
