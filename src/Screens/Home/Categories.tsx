@@ -6,14 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
-import {Categories_Data} from '../../Database/TempFile';
 import {useNavigation} from '@react-navigation/native';
+import {GetImageCategory} from '../../apis/Images';
 
 type Props = {};
 
 const Categories = (props: Props) => {
+  const [categories, setCategories] = useState([]);
   const chunkArray = (array: any, size: any) => {
     const result = [];
     for (let i = 0; i < array.length; i += size) {
@@ -22,7 +23,20 @@ const Categories = (props: Props) => {
     return result;
   };
 
-  const rows = chunkArray(Categories_Data, 2);
+  const GetCategoryHandler = async () => {
+    const result = await GetImageCategory();
+    if (result !== 0) {
+      setCategories(result);
+    }
+  };
+
+  useEffect(() => {
+    GetCategoryHandler();
+  }, []);
+
+  const rows = chunkArray(categories, 2);
+
+  console.log(rows);
   const nav = useNavigation<any>();
   return (
     <View style={styles.mainContainer}>
@@ -40,10 +54,10 @@ const Categories = (props: Props) => {
                 activeOpacity={0.7}
                 style={styles.btnStyle}>
                 <ImageBackground
-                  source={{uri: item?.image_path}}
+                  source={{uri: item?.image_url}}
                   style={styles.bgImage}
                 />
-                <Text style={styles.textStyle}>{item?.title}</Text>
+                <Text style={styles.textStyle}>{item?.category_name}</Text>
               </TouchableOpacity>
             ))}
           </View>

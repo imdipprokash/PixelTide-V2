@@ -20,3 +20,23 @@ export const GetImages = async () => {
 
   return result;
 };
+
+export const GetImageCategory = async () => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `${baseUrl}/category`,
+    headers: {},
+  };
+
+  const result = axios
+    .request(config)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      return 0;
+    });
+
+  return result;
+};
