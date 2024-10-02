@@ -1,4 +1,4 @@
-import {Alert, PermissionsAndroid} from 'react-native';
+import {Alert, PermissionsAndroid, ToastAndroid} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import {UUID} from './UtilsFN';
 
@@ -15,28 +15,30 @@ export const grantPermission = async (url: string) => {
 
 const downloadImage = async (url: any) => {
   const {config, fs} = RNFetchBlob;
-  const downloads = fs.dirs.DownloadDir;
-  const path = `${downloads}/image_${UUID()}.jpg`;
+  const path = fs.dirs.DownloadDir + `/image_${UUID()}.jpg`;
 
   console.log(path);
 
   // Start downloading the image
-  config({
-    fileCache: true,
-    addAndroidDownloads: {
-      useDownloadManager: true,
-      notification: true,
-      path: path,
-      description: 'Downloading image',
-    },
-  })
+  // {
+  //   fileCache: true,
+  //   addAndroidDownloads: {
+  //     useDownloadManager: true,
+  //     notification: true,
+  //     path: path,
+  //     description: 'Downloading image',
+  //     mime: 'image/jpeg',
+  //     mediaScannable: true,
+  //   },
+  // }
+  config({})
     .fetch('GET', url)
     .then((res: any) => {
-      console.log('The file is saved to:', res.path());
-      Alert.alert(`Image downloaded successfully to: ${res.path()}`);
+      console.log('The file is saved to:', path);
+      ToastAndroid.show(`Image downloaded successfully to: ${path}`, 10000);
     })
     .catch((error: any) => {
       console.error('Error downloading image:', error);
-      Alert.alert(`Failed to download image due to: ${error}`);
+      ToastAndroid.show(`Failed to download image due to: ${error}`, 10000);
     });
 };

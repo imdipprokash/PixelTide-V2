@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {AppColor, SIZES} from '../../utils/Constant';
@@ -119,7 +120,7 @@ const ItemOverview = ({route}: any) => {
                   uri: image_url,
                 },
                 (res: {msg: string; status: string; url: string}) => {
-                  Alert.alert(res?.msg);
+                  ToastAndroid.show(`${res?.msg}`, 10000);
                 },
                 TYPE?.HOME,
               );
